@@ -1,4 +1,4 @@
-import socket, os
+import socket, os, time
 from encrypt_decrypt import decrypt
 
 def main():
@@ -12,11 +12,15 @@ def main():
         print('Client connected:', address)
 
         # Receive the filename and file size from the client
-        filename_size = decrypt(client.recv(1024).decode())
+        print('Encrypted: ', decrypt(client.recv(1024)))
+        filename_size = decrypt(client.recv(1024)).decode()
+        print('Decrypted: ', filename_size)
 
         filename, file_size = filename_size.split(", ")[0], filename_size.split(", ")[1]
 
         print('Received file:', filename)
+
+        start_time = time.time()
 
         # Open the file and write the data received from the client
         with open(os.path.splitext(filename)[0] + "_sent" + os.path.splitext(filename)[1], 'wb') as file:
@@ -26,6 +30,8 @@ def main():
                 file.write(decrypt(data))
                 total_received += len(data)
 
+        end_time = time.time()
+        print('Time taken:', round(end_time - start_time), 2)
         print('File saved:', filename)
         client.close()
 
