@@ -1,7 +1,7 @@
 import socket, os, time
 from encrypt_decrypt import decrypt
 
-def main():
+def main() -> None:
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('localhost', 50000))
     server.listen(1)
@@ -12,9 +12,7 @@ def main():
         print('Client connected:', address)
 
         # Receive the filename and file size from the client
-        print('Encrypted: ', decrypt(client.recv(1024)))
         filename_size = decrypt(client.recv(1024)).decode()
-        print('Decrypted: ', filename_size)
 
         filename, file_size = filename_size.split(", ")[0], filename_size.split(", ")[1]
 

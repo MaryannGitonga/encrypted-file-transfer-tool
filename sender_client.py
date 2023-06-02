@@ -2,15 +2,15 @@ from encrypt_decrypt import encrypt
 import socket
 import os
 
-def send_file(filename, server_address):
+def send_file(filename: str, server_address: tuple) -> None:
     # Client with an internet socket using connection oriented protocol (TCP)
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(server_address)
 
     # Send the filename & file size to the server
     encoded_filename_size = (filename + ", " + str(os.path.getsize(filename))).encode()
-
     client.send(encrypt(encoded_filename_size))
+
     # Read and send the file data in chunks
     with open(filename, 'rb') as file:
         while True:

@@ -1,12 +1,10 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-import os
 from keys import KEY, INITIALIZATION_VECTOR
 
 def encrypt(data: bytes) -> bytes:
     cipher = AES.new(KEY, AES.MODE_CBC, INITIALIZATION_VECTOR)
     ciphertext = cipher.encrypt(pad(data, AES.block_size))
-
     return ciphertext
 
 # NB: 
